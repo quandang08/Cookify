@@ -16,15 +16,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cooktify" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrX-AQ-S4Q">
-                                <rect key="frame" x="157" y="99" width="99" height="20.333333333333314"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cooktify" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrX-AQ-S4Q">
+                                <rect key="frame" x="161" y="90" width="70" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Đặng Quân" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzm-8g-57O">
-                                <rect key="frame" x="147" y="192" width="99" height="21"/>
+                                <rect key="frame" x="147" y="176" width="99" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -33,9 +32,12 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="lzm-8g-57O" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="92" id="0Nx-wr-Luf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lzm-8g-57O" secondAttribute="trailing" constant="149" id="Ko3-UY-vyT"/>
                             <constraint firstItem="lzm-8g-57O" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="145" id="MzW-oC-dqN"/>
+                            <constraint firstItem="lzm-8g-57O" firstAttribute="top" secondItem="hrX-AQ-S4Q" secondAttribute="bottom" constant="56.670000000000002" id="OEm-gk-5Xo"/>
+                            <constraint firstAttribute="trailing" secondItem="hrX-AQ-S4Q" secondAttribute="trailing" constant="162" id="js5-dn-b5q"/>
+                            <constraint firstItem="hrX-AQ-S4Q" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="161" id="qz8-6m-OyE"/>
+                            <constraint firstItem="hrX-AQ-S4Q" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="90" id="un5-xe-zGE"/>
                         </constraints>
                     </view>
                 </viewController>
