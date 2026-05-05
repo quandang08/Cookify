@@ -14,7 +14,7 @@
 		CE5CB20B2FA5B5DB00290915 /* Exceptions for "Cooktify" folder in "Cooktify" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				"System Files/Info.plist",
 			);
 			target = CE5CB1F82FA5B5D900290915 /* Cooktify */;
 		};
@@ -147,7 +147,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8BQ8WFP3Q9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Cooktify/Info.plist;
+				INFOPLIST_FILE = "Cooktify/System Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -180,7 +180,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8BQ8WFP3Q9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Cooktify/Info.plist;
+				INFOPLIST_FILE = "Cooktify/System Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
