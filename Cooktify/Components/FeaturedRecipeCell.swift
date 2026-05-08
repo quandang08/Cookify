@@ -17,6 +17,12 @@ class FeaturedRecipeCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.cornerRadius = 24
-        self.clipsToBounds = true // "cắt" ảnh thừa ở góc bo
+        self.clipsToBounds = true
+    }
+    
+    func configure(title: String, time: String, rating: String) {
+        titleLabel.text = title
+        timeLabel.text = time
+        ratingLabel.text = rating
     }
 }

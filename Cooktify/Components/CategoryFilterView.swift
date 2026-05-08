@@ -70,7 +70,7 @@ extension CategoryFilterView: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             let name = categories[indexPath.item]
             let font = UIFont.systemFont(ofSize: 15)
-            let width = name.size(withAttributes: [.font: font]).width + 36 // Tăng padding một chút
+            let width = name.size(withAttributes: [.font: font]).width + 36
             
             return CGSize(width: width, height: 40)
         }

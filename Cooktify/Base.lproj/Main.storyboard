@@ -9,6 +9,31 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--View Controller-->
+        <scene sceneID="x7U-83-iFa">
+            <objects>
+                <viewController id="JUi-ey-rP4" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bLP-1I-5D7">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXP-Zm-yQe">
+                                <rect key="frame" x="175" y="194" width="44" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6rx-7e-37X"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="6Z6-cV-wpb"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X6r-k1-Ltx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-437" y="939"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="QPi-aJ-ltd">
             <objects>
@@ -19,7 +44,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="7bD-xx-Bb1"/>
+                        <segue destination="kaL-U9-cZI" kind="relationship" relationship="viewControllers" id="bCG-Ug-ydh"/>
                         <segue destination="FXc-0z-6w2" kind="relationship" relationship="viewControllers" id="2Wu-2z-mGg"/>
                         <segue destination="Sr9-d2-EU7" kind="relationship" relationship="viewControllers" id="iO6-Gb-Fbk"/>
                         <segue destination="Iy3-zv-DRc" kind="relationship" relationship="viewControllers" id="MUJ-QD-jNN"/>
@@ -27,7 +52,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rfo-Uk-Xqe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-62" y="-527"/>
+            <point key="canvasLocation" x="428" y="-814"/>
         </scene>
         <!--Home-->
         <scene sceneID="tne-QT-ifu">
@@ -188,6 +213,7 @@
                                             <outlet property="recipeImageView" destination="Mp2-P2-zrd" id="gWQ-b7-fgc"/>
                                             <outlet property="timeLabel" destination="tVC-8h-3I7" id="XaP-Ai-s0i"/>
                                             <outlet property="titleLabel" destination="u4J-l8-cz4" id="o3V-gM-qKF"/>
+                                            <segue destination="JUi-ey-rP4" kind="show" id="a6D-xJ-7Vm"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -196,14 +222,15 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" id="lLQ-6d-iow"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house" id="9gW-OY-kmK"/>
+                    <navigationItem key="navigationItem" id="AOT-Gu-5kR"/>
                     <connections>
                         <outlet property="mainCollectionView" destination="UIl-Pz-B7B" id="bFy-gS-2Mr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1053" y="208"/>
+            <point key="canvasLocation" x="-437" y="205"/>
         </scene>
         <!--Search-->
         <scene sceneID="dEP-Py-0gn">
@@ -228,7 +255,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0lN-5y-GS5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-63" y="208"/>
+            <point key="canvasLocation" x="863.35877862595419" y="207.74647887323945"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="aXl-J9-LHo">
@@ -257,7 +284,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rBh-Mo-rm4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="814.50381679389307" y="204.92957746478874"/>
+            <point key="canvasLocation" x="1741.2213740458014" y="204.92957746478874"/>
         </scene>
         <!--Profile-->
         <scene sceneID="1Yf-RK-tsv">
@@ -286,7 +313,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DuE-4Y-OYp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1808" y="205"/>
+            <point key="canvasLocation" x="2733.5877862595421" y="204.92957746478874"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="SZ1-sp-9Pv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kaL-U9-cZI" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="house.fill" catalog="system" id="lLQ-6d-iow"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Dqy-sv-YFw"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fsA-mW-eZK">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Gqt-En-bXf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e9d-Wy-8EK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1364.1221374045801" y="204.92957746478874"/>
         </scene>
     </scenes>
     <resources>
@@ -294,6 +342,7 @@
         <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="heart.circle" catalog="system" width="128" height="123"/>
+        <image name="house" catalog="system" width="128" height="104"/>
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="person" catalog="system" width="128" height="121"/>
