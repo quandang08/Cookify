@@ -18,6 +18,16 @@ class SearchController: UIViewController {
         return view
     }()
     
+    let avatarImageView: UIImageView = {
+        let iv = UIImageView(image: UIImage(systemName: "person.crop.circle.fill")) // Thay bằng ảnh thật "user_avatar" nếu có
+        iv.tintColor = .systemGray
+        iv.contentMode = .scaleAspectFill
+        iv.layer.cornerRadius = 20
+        iv.clipsToBounds = true
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
+    }()
+    
     let logoLabel: UILabel = {
         let label = UILabel()
         label.text = "Cookify"
@@ -25,6 +35,14 @@ class SearchController: UIViewController {
         label.textColor = UIColor(red: 26/255, green: 71/255, blue: 51/255, alpha: 1.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    let settingsButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(systemName: "gearshape"), for: .normal)
+        btn.tintColor = UIColor(red: 26/255, green: 71/255, blue: 51/255, alpha: 1.0)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
     }()
     
     // 2. Search Bar
@@ -111,7 +129,9 @@ class SearchController: UIViewController {
     
     private func setupUI() {
         view.addSubview(headerView)
+        headerView.addSubview(avatarImageView)
         headerView.addSubview(logoLabel)
+        headerView.addSubview(settingsButton)
         view.addSubview(searchContainer)
         searchContainer.addSubview(searchTextField)
         view.addSubview(recentLabel)
@@ -128,6 +148,16 @@ class SearchController: UIViewController {
             
             logoLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
             logoLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            
+            avatarImageView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            avatarImageView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 40),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 40),
+            
+            settingsButton.trailingAnchor.constraint(equalTo:headerView.trailingAnchor),
+            settingsButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            settingsButton.widthAnchor.constraint(equalToConstant: 30),
+            settingsButton.heightAnchor.constraint(equalToConstant: 30),
             
             // Search Bar
             searchContainer.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20),
