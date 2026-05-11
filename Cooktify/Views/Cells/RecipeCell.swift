@@ -15,7 +15,7 @@ class RecipeCell: UICollectionViewCell {
             iv.contentMode = .scaleAspectFill
             iv.clipsToBounds = true
             iv.layer.cornerRadius = 20
-            iv.backgroundColor = .systemGray6 // Hiện màu xám để Quân dễ thấy khi chưa có ảnh
+            iv.backgroundColor = .systemGray6
             return iv
         }()
         
@@ -36,7 +36,7 @@ class RecipeCell: UICollectionViewCell {
                 recipeImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
                 recipeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 recipeImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                recipeImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor) // Cho hình tràn hết cell
+                recipeImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ])
         }
 }

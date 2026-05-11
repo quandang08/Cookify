@@ -9,6 +9,13 @@ import UIKit
 class FavoriteCell: UICollectionViewCell {
     static let identifier = "FavoriteCell"
     
+    var isSearchMode: Bool = false {
+        didSet {
+            // Khi biến này thay đổi, nút tim sẽ tự ẩn/hiện
+            heartButton.isHidden = isSearchMode
+        }
+    }
+    
     // MARK: - UI Components
     let foodImageView: UIImageView = {
         let iv = UIImageView()
