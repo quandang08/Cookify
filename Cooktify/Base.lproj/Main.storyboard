@@ -654,25 +654,12 @@
         <!--Favorites-->
         <scene sceneID="aXl-J9-LHo">
             <objects>
-                <viewController id="Sr9-d2-EU7" sceneMemberID="viewController">
+                <viewController id="Sr9-d2-EU7" customClass="FavoriteController" customModule="Cooktify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1QJ-rv-BtF">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xg8-MG-lVU">
-                                <rect key="frame" x="164" y="216" width="87" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="02f-MN-jKu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="xg8-MG-lVU" firstAttribute="leading" secondItem="02f-MN-jKu" secondAttribute="leading" constant="164" id="8Lq-3r-ksi"/>
-                            <constraint firstItem="xg8-MG-lVU" firstAttribute="top" secondItem="02f-MN-jKu" secondAttribute="top" constant="98" id="JPM-aZ-Xz8"/>
-                            <constraint firstItem="02f-MN-jKu" firstAttribute="trailing" secondItem="xg8-MG-lVU" secondAttribute="trailing" constant="142" id="PcA-77-bVz"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Favorites" image="heart" catalog="system" selectedImage="heart" id="bxG-2C-KU4"/>
                 </viewController>
