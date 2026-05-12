@@ -14,16 +14,16 @@ class HomeController: UIViewController {
     // Khai báo nút Floating Action Button
     let addButton: UIButton = {
         let btn = UIButton(type: .system)
-        // 1. Cấu hình icon và màu sắc đúng chất Cookify
+        // Cấu hình icon và màu sắc đúng chất Cookify
         let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
         btn.setImage(UIImage(systemName: "plus", withConfiguration: config), for: .normal)
         btn.tintColor = .white
         btn.backgroundColor = UIColor(red: 26/255, green: 71/255, blue: 51/255, alpha: 1.0)
         
-        // 2. Bo tròn để tạo hình tròn
+        // Bo tròn để tạo hình tròn
         btn.layer.cornerRadius = 30
         
-        // 3. Đổ bóng để nút "nổi" lên trên mặt thẻ món ăn
+        // Đổ bóng để nút "nổi" lên trên mặt thẻ món ăn
         btn.layer.shadowColor = UIColor.black.cgColor
         btn.layer.shadowOpacity = 0.3
         btn.layer.shadowOffset = CGSize(width: 0, height: 4)

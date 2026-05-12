@@ -2,7 +2,7 @@ import UIKit
 
 class AddRecipeController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    // MARK: - UI Components (Dùng ScrollView để không bị tràn màn hình)
+    // MARK: - UI Components
     private let scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.translatesAutoresizingMaskIntoConstraints = false
