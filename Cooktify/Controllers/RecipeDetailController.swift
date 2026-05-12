@@ -13,6 +13,36 @@ class RecipeDetailController: UIViewController {
         
     }
     
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+            // 1. Khởi tạo Alert
+            let alert = UIAlertController(
+                title: "Delete Recipe?",
+                message: "Are you sure you want to delete this recipe? This action cannot be undone.",
+                preferredStyle: .alert
+            )
+            
+            // 2. Hành động Xoá (Màu đỏ)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+                self.handleDeleteLogic()
+            }
+            
+            // 3. Hành động Huỷ
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            // Thêm các nút vào bảng thông báo
+            alert.addAction(deleteAction)
+            alert.addAction(cancelAction)
+            
+            // Hiển thị Alert lên màn hình
+            present(alert, animated: true, completion: nil)
+        }
+        
+        private func handleDeleteLogic() {
+            print("Backend Quân: Đang thực thi xóa dữ liệu...")
+            // Sau khi xóa xong, quay lại màn hình danh sách (Home)
+            navigationController?.popViewController(animated: true)
+        }
+    
     @IBAction func ingredientTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
     }

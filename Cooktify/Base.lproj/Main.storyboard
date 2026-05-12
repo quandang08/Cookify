@@ -418,6 +418,9 @@
                         <rightBarButtonItems>
                             <barButtonItem title="Item" image="trash" catalog="system" id="45g-fq-pXn">
                                 <color key="tintColor" systemColor="systemPinkColor"/>
+                                <connections>
+                                    <action selector="deleteButtonTapped:" destination="JUi-ey-rP4" id="Lyw-ix-IfS"/>
+                                </connections>
                             </barButtonItem>
                             <barButtonItem title="Item" image="heart" catalog="system" id="aey-eO-Fbz"/>
                             <barButtonItem title="Item" image="pencil" catalog="system" id="hX0-i6-vrZ"/>
