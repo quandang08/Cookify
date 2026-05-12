@@ -8,6 +8,8 @@
 import UIKit
 
 class RecipeDetailController: UIViewController {
+    var currentRecipe: Recipe?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +38,17 @@ class RecipeDetailController: UIViewController {
             // Hiển thị Alert lên màn hình
             present(alert, animated: true, completion: nil)
         }
+    @IBAction func editButtonTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        // Khởi tạo màn hình Edit
+        guard let editVC = storyboard.instantiateViewController(withIdentifier: "EditRecipeController") as? EditRecipeController else { return }
+        
+        // Truyền dữ liệu từ Detail sang Edit
+        editVC.recipeToEdit = self.currentRecipe // "self.currentRecipe" là món ăn đang hiện ở Detail
+        
+        self.present(editVC, animated: true)
+    }
         
         private func handleDeleteLogic() {
             print("Backend Quân: Đang thực thi xóa dữ liệu...")

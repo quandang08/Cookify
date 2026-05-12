@@ -15,7 +15,7 @@ class CategoryFilterView: UIView {
     let categories = ["All", "Breakfast", "Lunch", "Dinner", "Dessert", "Drinks"]
     var selectedIndex = 0
     
-    // Màu xanh chủ đạo của app (#064E3B)
+    // Màu xanh chủ đạo (#064E3B)
     private let primaryGreen = UIColor(red: 0.02, green: 0.31, blue: 0.23, alpha: 1.0)
     private let inactiveGray = UIColor.systemGray6
 
