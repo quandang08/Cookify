@@ -9,6 +9,9 @@ import UIKit
 
 class BaseRecipeFormController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+        var selectedRecipeImage: UIImage?
+        var didChangeRecipeImage = false
+
     // MARK: - UI Components (Các thành phần dùng chung cho cả Add và Edit)
         let scrollView: UIScrollView = {
             let sv = UIScrollView()
@@ -200,7 +203,13 @@ class BaseRecipeFormController: UIViewController, UIImagePickerControllerDelegat
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let editedImage = info[.editedImage] as? UIImage {
+                selectedRecipeImage = editedImage
+                didChangeRecipeImage = true
                 recipeImageView.image = editedImage
+            } else if let originalImage = info[.originalImage] as? UIImage {
+                selectedRecipeImage = originalImage
+                didChangeRecipeImage = true
+                recipeImageView.image = originalImage
             }
             dismiss(animated: true)
         }

@@ -149,7 +149,7 @@ class RecipeDetailController: UIViewController {
         imageView.tintColor = primaryGreen
         imageView.image = UIImage(systemName: "fork.knife.circle.fill")
 
-        if let imageName = currentRecipe?.image, let image = UIImage(named: imageName) {
+        if let image = ImageStorageManager.shared.loadImage(named: currentRecipe?.image) {
             imageView.image = image
             imageView.contentMode = .scaleAspectFill
         }

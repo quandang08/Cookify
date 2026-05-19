@@ -69,7 +69,7 @@ class FavoriteCell: UICollectionViewCell {
         titleLabel.text = recipe.name
         tagLabel.text = "  \(recipe.category ?? "RECIPE")  ".uppercased()
 
-        if let imageName = recipe.image, let image = UIImage(named: imageName) {
+        if let image = ImageStorageManager.shared.loadImage(named: recipe.image) {
             foodImageView.image = image
             foodImageView.contentMode = .scaleAspectFill
         } else {

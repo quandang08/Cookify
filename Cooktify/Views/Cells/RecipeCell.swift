@@ -85,7 +85,7 @@ final class HomeFeaturedRecipeCell: UICollectionViewCell {
         configurePill(timePill, icon: "clock", text: recipe.time, iconColor: .white)
         configurePill(ratingPill, icon: "star.fill", text: recipe.rating, iconColor: .systemYellow)
 
-        if let imageName = recipe.imageName, let image = UIImage(named: imageName) {
+        if let image = ImageStorageManager.shared.loadImage(named: recipe.imageName) {
             imageView.image = image
             imageView.contentMode = .scaleAspectFill
         } else {
@@ -230,7 +230,7 @@ final class HomeSmallRecipeCell: UICollectionViewCell {
         metaLabel.text = recipe.time
         ratingLabel.text = "★ \(recipe.rating)"
 
-        if let imageName = recipe.imageName, let image = UIImage(named: imageName) {
+        if let image = ImageStorageManager.shared.loadImage(named: recipe.imageName) {
             imageView.image = image
             imageView.contentMode = .scaleAspectFill
         } else {

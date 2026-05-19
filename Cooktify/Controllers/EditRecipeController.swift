@@ -45,6 +45,12 @@ class EditRecipeController: BaseRecipeFormController {
             }
             .joined(separator: "\n")
 
+        if let image = ImageStorageManager.shared.loadImage(named: recipe.image) {
+            recipeImageView.image = image
+            selectedRecipeImage = image
+            didChangeRecipeImage = false
+        }
+
         stepsTextView.text = recipe.steps
             .sorted { $0.stepNumber < $1.stepNumber }
             .map { $0.description }
@@ -64,6 +70,10 @@ class EditRecipeController: BaseRecipeFormController {
 
         recipe.name = recipeName
         recipe.duration = Int(durationText) ?? 0
+        if didChangeRecipeImage, let selectedRecipeImage {
+            recipe.image = ImageStorageManager.shared.saveImage(selectedRecipeImage) ?? recipe.image
+        }
+
         recipe.category = selectedCategory()
         recipe.difficulty = selectedDifficulty()
         recipe.rating = selectedRating()

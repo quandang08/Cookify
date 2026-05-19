@@ -17,10 +17,12 @@ class AddRecipeController: BaseRecipeFormController {
         let durationText = durationTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let duration = Int(durationText) ?? 0
 
+        let savedImageName = selectedRecipeImage.flatMap { ImageStorageManager.shared.saveImage($0) }
+
         let recipe = Recipe(
             id: 0,
             name: recipeName,
-            image: nil,
+            image: savedImageName,
             category: selectedCategory(),
             duration: duration,
             rating: selectedRating(),
