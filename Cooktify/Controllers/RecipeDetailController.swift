@@ -26,10 +26,12 @@ class RecipeDetailController: UIViewController {
         setupDynamicDetailUI()
     }
 
-    private func loadRecipeFromDatabaseIfNeeded() {
+    private func loadRecipeFromDatabaseIfNeeded(shouldTrackRecentlyViewed: Bool = true) {
         guard let recipeId else { return }
         currentRecipe = RecipeDatabase.shared.fetchRecipeDetail(id: recipeId)
-        RecipeDatabase.shared.addRecentlyViewed(recipeId: recipeId)
+        if shouldTrackRecentlyViewed {
+            RecipeDatabase.shared.addRecentlyViewed(recipeId: recipeId)
+        }
     }
 
     // MARK: - UI Setup
@@ -68,10 +70,20 @@ class RecipeDetailController: UIViewController {
         items[1].tintColor = primaryGreen
     }
 
+    private func reloadRecipeDetail() {
+        loadRecipeFromDatabaseIfNeeded(shouldTrackRecentlyViewed: false)
+        setupNavigationAppearance()
+        setupDynamicDetailUI()
+    }
+
     private func setupDynamicDetailUI() {
         // Storyboard detail cũ dùng nhiều fixed frame nên dễ tạo khoảng trắng.
         // Xóa phần view cũ và dựng lại bằng StackView để nội dung tự kéo dài theo data.
         view.subviews.forEach { $0.removeFromSuperview() }
+        contentStack.arrangedSubviews.forEach { arrangedSubview in
+            contentStack.removeArrangedSubview(arrangedSubview)
+            arrangedSubview.removeFromSuperview()
+        }
         view.backgroundColor = creamBackground
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -384,6 +396,9 @@ class RecipeDetailController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let editVC = storyboard.instantiateViewController(withIdentifier: "EditRecipeController") as? EditRecipeController else { return }
         editVC.recipeToEdit = currentRecipe
+        editVC.onRecipeUpdated = { [weak self] in
+            self?.reloadRecipeDetail()
+        }
         present(editVC, animated: true)
     }
 
