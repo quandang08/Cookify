@@ -13,6 +13,5 @@ struct Recipe: Identifiable {
     let duration: Int  //30 mins
     var rating: Int?
     let difficulty: String  // Easy, Medium, Hard
-    let averageRating: Double
     let createdAt: String
 }

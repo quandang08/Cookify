@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CEF5A3632FB5A1DD00B916AA /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = CEF5A3622FB5A1DD00B916AA /* SQLite */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		CE5CB1F92FA5B5D900290915 /* Cooktify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cooktify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF5A3632FB5A1DD00B916AA /* SQLite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				CE5CB1FB2FA5B5D900290915 /* Cooktify */,
+				CEBEBCC72FB8453700FD0A0E /* Frameworks */,
 				CE5CB1FA2FA5B5D900290915 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +62,13 @@
 				CE5CB1F92FA5B5D900290915 /* Cooktify.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CEBEBCC72FB8453700FD0A0E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,6 +91,7 @@
 			);
 			name = Cooktify;
 			packageProductDependencies = (
+				CEF5A3622FB5A1DD00B916AA /* SQLite */,
 			);
 			productName = Cooktify;
 			productReference = CE5CB1F92FA5B5D900290915 /* Cooktify.app */;
@@ -107,6 +121,9 @@
 			);
 			mainGroup = CE5CB1F02FA5B5D900290915;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CEF5A3612FB5A1DD00B916AA /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CE5CB1FA2FA5B5D900290915 /* Products */;
 			projectDirPath = "";
@@ -347,6 +364,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CEF5A3612FB5A1DD00B916AA /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.16.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CEF5A3622FB5A1DD00B916AA /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEF5A3612FB5A1DD00B916AA /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CE5CB1F12FA5B5D900290915 /* Project object */;
 }
