@@ -8,6 +8,8 @@
 import UIKit
 
 class SearchController: UIViewController {
+    private var searchResults: [Recipe] = []
+    private var hasUserTyped = false
     
     // MARK: - UI Components
     
@@ -116,6 +118,8 @@ class SearchController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: FavoriteCell.identifier)
+        searchTextField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
+        loadTopDiscoveries()
         
         // Thêm cử chỉ chạm (Tap Gesture) vào View chính
             let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -125,6 +129,20 @@ class SearchController: UIViewController {
     }
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+
+    @objc private func searchTextChanged() {
+        hasUserTyped = true
+        let keyword = searchTextField.text ?? ""
+        searchResults = RecipeDatabase.shared.searchRecipes(keyword: keyword)
+        sectionTitleLabel.text = keyword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Top Discoveries" : "Search Results"
+        collectionView.reloadData()
+    }
+
+    private func loadTopDiscoveries() {
+        searchResults = RecipeDatabase.shared.fetchAllRecipes()
+        sectionTitleLabel.text = "Top Discoveries"
+        collectionView.reloadData()
     }
     
     private func setupUI() {
@@ -199,7 +217,28 @@ class SearchController: UIViewController {
             btn.layer.cornerRadius = 15
             btn.layer.borderWidth = 1
             btn.layer.borderColor = UIColor.systemGray5.cgColor
+            btn.addTarget(self, action: #selector(recentTagTapped(_:)), for: .touchUpInside)
             recentStack.addArrangedSubview(btn)
+        }
+    }
+
+    @objc private func recentTagTapped(_ sender: UIButton) {
+        let keyword = sender.title(for: .normal)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        searchTextField.text = keyword
+        searchTextChanged()
+    }
+
+    private func openRecipeDetail(recipeId: Int) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailVC = storyboard.instantiateViewController(withIdentifier: "RecipeDetailController") as? RecipeDetailController else { return }
+        detailVC.recipeId = recipeId
+
+        if let navigationController {
+            navigationController.pushViewController(detailVC, animated: true)
+        } else {
+            let nav = UINavigationController(rootViewController: detailVC)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true)
         }
     }
 }
@@ -208,7 +247,7 @@ class SearchController: UIViewController {
 extension SearchController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        searchResults.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -216,16 +255,13 @@ extension SearchController: UICollectionViewDataSource, UICollectionViewDelegate
         
         // BẬT chế độ tìm kiếm để ẩn nút tim
         cell.isSearchMode = true
-        
-        cell.titleLabel.text = "Vibrant Avocado Quinoa Bowl"
-        cell.tagLabel.text = "  HEALTHY  "
-        cell.foodImageView.image = UIImage(named: "avocado_bowl")
-        
-        cell.metaStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        cell.metaStack.addArrangedSubview(cell.createMetaItem(icon: "clock", text: "15 min"))
-        cell.metaStack.addArrangedSubview(cell.createMetaItem(icon: "flame.fill", text: "Low"))
+        cell.configure(with: searchResults[indexPath.item])
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        openRecipeDetail(recipeId: searchResults[indexPath.item].id)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
