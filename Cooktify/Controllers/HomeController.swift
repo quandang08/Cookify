@@ -12,30 +12,28 @@ class HomeController: UIViewController {
     @IBOutlet weak var mainCollectionView: UICollectionView!
 
     private var recipeCards: [HomeRecipeCard] = []
+    private var selectedCategory = "All"
+
+    private let fallbackCards: [HomeRecipeCard] = [
+        HomeRecipeCard(id: nil, title: "Green Goddess Glow Bowl", subtitle: "Healthy Choice", time: "15 min prep", rating: "4.9", difficulty: "Easy", imageName: "avocado_bowl"),
+        HomeRecipeCard(id: nil, title: "Avocado Toast", subtitle: "Breakfast", time: "15 min", rating: "4.8", difficulty: "Easy", imageName: "avocado"),
+        HomeRecipeCard(id: nil, title: "Lemon Ricotta Pasta", subtitle: "Dinner", time: "25 min", rating: "4.7", difficulty: "Medium", imageName: nil),
+        HomeRecipeCard(id: nil, title: "Matcha Pancakes", subtitle: "Dessert", time: "20 min", rating: "4.6", difficulty: "Easy", imageName: nil)
+    ]
+
+    private var visibleCards: [HomeRecipeCard] {
+        if recipeCards.isEmpty && selectedCategory == "All" {
+            return fallbackCards
+        }
+        return recipeCards
+    }
 
     private var featuredRecipe: HomeRecipeCard {
-        recipeCards.first ?? HomeRecipeCard(
-            id: nil,
-            title: "Green Goddess Glow Bowl",
-            subtitle: "Healthy Choice",
-            time: "15 min prep",
-            rating: "4.9",
-            difficulty: "Easy",
-            imageName: "avocado_bowl"
-        )
+        visibleCards[0]
     }
 
     private var gridRecipes: [HomeRecipeCard] {
-        if recipeCards.count > 1 {
-            return Array(recipeCards.dropFirst())
-        }
-
-        return [
-            HomeRecipeCard(id: nil, title: "Avocado Toast", subtitle: "Breakfast", time: "15 min", rating: "4.8", difficulty: "Easy", imageName: "avocado"),
-            HomeRecipeCard(id: nil, title: "Lemon Ricotta Pasta", subtitle: "Dinner", time: "25 min", rating: "4.7", difficulty: "Medium", imageName: nil),
-            HomeRecipeCard(id: nil, title: "Matcha Pancakes", subtitle: "Dessert", time: "20 min", rating: "4.6", difficulty: "Easy", imageName: nil),
-            HomeRecipeCard(id: nil, title: "Quinoa Power Bowl", subtitle: "Healthy", time: "18 min", rating: "4.9", difficulty: "Easy", imageName: "avocado_bowl")
-        ]
+        visibleCards.count > 1 ? Array(visibleCards.dropFirst()) : []
     }
 
     // Khai báo nút Floating Action Button
@@ -57,6 +55,7 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setupCategoryFilter()
         setupFloatingButton()
         loadRecipesFromDatabase()
     }
@@ -67,7 +66,9 @@ class HomeController: UIViewController {
     }
 
     private func loadRecipesFromDatabase() {
-        let recipes = RecipeDatabase.shared.fetchAllRecipes()
+        let recipes = selectedCategory == "All"
+            ? RecipeDatabase.shared.fetchAllRecipes()
+            : RecipeDatabase.shared.fetchRecipes(category: selectedCategory)
         recipeCards = recipes.map { recipe in
             HomeRecipeCard(
                 id: recipe.id,
@@ -80,6 +81,28 @@ class HomeController: UIViewController {
             )
         }
         mainCollectionView.reloadData()
+    }
+
+    private func setupCategoryFilter() {
+        guard let categoryFilterView = findCategoryFilterView(in: view) else { return }
+        categoryFilterView.onCategorySelected = { [weak self] category in
+            self?.selectedCategory = category
+            self?.loadRecipesFromDatabase()
+        }
+    }
+
+    private func findCategoryFilterView(in view: UIView) -> CategoryFilterView? {
+        if let categoryFilterView = view as? CategoryFilterView {
+            return categoryFilterView
+        }
+
+        for subview in view.subviews {
+            if let found = findCategoryFilterView(in: subview) {
+                return found
+            }
+        }
+
+        return nil
     }
 
     private func setupCollectionView() {
@@ -152,7 +175,9 @@ class HomeController: UIViewController {
 
 // MARK: - Data Source
 extension HomeController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int { 2 }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        visibleCards.isEmpty ? 0 : 2
+    }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         section == 0 ? 1 : gridRecipes.count

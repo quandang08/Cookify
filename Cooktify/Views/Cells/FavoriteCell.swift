@@ -64,6 +64,25 @@ class FavoriteCell: UICollectionViewCell {
         return sv
     }()
 
+
+    func configure(with recipe: Recipe) {
+        titleLabel.text = recipe.name
+        tagLabel.text = "  \(recipe.category ?? "RECIPE")  ".uppercased()
+
+        if let imageName = recipe.image, let image = UIImage(named: imageName) {
+            foodImageView.image = image
+            foodImageView.contentMode = .scaleAspectFill
+        } else {
+            foodImageView.image = UIImage(systemName: "fork.knife.circle.fill")
+            foodImageView.tintColor = UIColor(red: 26/255, green: 71/255, blue: 51/255, alpha: 1.0)
+            foodImageView.contentMode = .scaleAspectFit
+        }
+
+        metaStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        metaStack.addArrangedSubview(createMetaItem(icon: "clock", text: "\(recipe.duration) min"))
+        metaStack.addArrangedSubview(createMetaItem(icon: "flame.fill", text: recipe.difficulty))
+    }
+
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)

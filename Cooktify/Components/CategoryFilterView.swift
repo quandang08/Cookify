@@ -14,6 +14,7 @@ class CategoryFilterView: UIView {
     // MARK: - Constants & Properties
     let categories = ["All", "Breakfast", "Lunch", "Dinner", "Dessert", "Drinks"]
     var selectedIndex = 0
+    var onCategorySelected: ((String) -> Void)?
     
     // Màu xanh chủ đạo (#064E3B)
     private let primaryGreen = UIColor(red: 0.02, green: 0.31, blue: 0.23, alpha: 1.0)
@@ -63,7 +64,9 @@ extension CategoryFilterView: UICollectionViewDataSource, UICollectionViewDelega
         // Luôn cuộn ô được chọn vào giữa màn hình
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             
-        print("Backend Log: Filtering recipes for category -> \(categories[selectedIndex])")
+        let selectedCategory = categories[selectedIndex]
+        print("Backend Log: Filtering recipes for category -> \(selectedCategory)")
+        onCategorySelected?(selectedCategory)
     }
         
     // MARK: - Layout

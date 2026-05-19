@@ -36,6 +36,36 @@ class RecipeDetailController: UIViewController {
     private func setupNavigationAppearance() {
         title = nil
         navigationController?.navigationBar.tintColor = primaryGreen
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped(_:))),
+            UIBarButtonItem(image: favoriteIconImage(), style: .plain, target: self, action: #selector(favoriteButtonTapped)),
+            UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped(_:)))
+        ]
+        navigationItem.rightBarButtonItems?.first?.tintColor = .systemPink
+
+        if navigationController?.viewControllers.first === self, presentingViewController != nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(
+                title: "Close",
+                style: .plain,
+                target: self,
+                action: #selector(closeButtonTapped)
+            )
+        }
+    }
+
+    @objc private func closeButtonTapped() {
+        dismiss(animated: true)
+    }
+
+    private func favoriteIconImage() -> UIImage? {
+        let systemName = currentRecipe?.isFavorite == true ? "heart.fill" : "heart"
+        return UIImage(systemName: systemName)
+    }
+
+    private func refreshFavoriteButton() {
+        guard let items = navigationItem.rightBarButtonItems, items.count >= 2 else { return }
+        items[1].image = favoriteIconImage()
+        items[1].tintColor = primaryGreen
     }
 
     private func setupDynamicDetailUI() {
@@ -341,6 +371,13 @@ class RecipeDetailController: UIViewController {
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
+    }
+
+    @objc private func favoriteButtonTapped() {
+        guard let recipeId else { return }
+        RecipeDatabase.shared.toggleFavorite(recipeId: recipeId)
+        currentRecipe?.isFavorite.toggle()
+        refreshFavoriteButton()
     }
 
     @IBAction func editButtonTapped(_ sender: Any) {
