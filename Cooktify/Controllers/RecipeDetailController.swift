@@ -163,8 +163,9 @@ class RecipeDetailController: UIViewController {
         ratingStack.axis = .horizontal
         ratingStack.spacing = 5
         ratingStack.alignment = .center
+        let ratingValue = currentRecipe?.rating ?? 4.8
         for index in 1...5 {
-            let star = UIImageView(image: UIImage(systemName: index <= (currentRecipe?.rating ?? 4) ? "star.fill" : "star"))
+            let star = UIImageView(image: UIImage(systemName: Double(index) <= ratingValue.rounded() ? "star.fill" : "star"))
             star.tintColor = .systemYellow
             star.contentMode = .scaleAspectFit
             star.widthAnchor.constraint(equalToConstant: 20).isActive = true
@@ -173,7 +174,7 @@ class RecipeDetailController: UIViewController {
         }
 
         let ratingText = UILabel()
-        ratingText.text = "  \(currentRecipe?.rating ?? 4).8 (128 reviews)"
+        ratingText.text = String(format: "  %.1f (128 reviews)", ratingValue)
         ratingText.font = .systemFont(ofSize: 15, weight: .medium)
         ratingText.textColor = .secondaryLabel
         ratingStack.addArrangedSubview(ratingText)

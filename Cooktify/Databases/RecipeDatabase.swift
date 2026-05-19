@@ -25,7 +25,7 @@ final class RecipeDatabase {
     private let recipeCategory = Expression<String?>("category")
     private let recipeDuration = Expression<Int?>("duration")
     private let recipeDifficulty = Expression<String?>("difficulty")
-    private let recipeRating = Expression<Int?>("rating")
+    private let recipeRating = Expression<Double?>("rating")
     private let recipeIsFavorite = Expression<Bool>("is_favorite")
     private let recipeCreatedAt = Expression<String?>("created_at")
 
@@ -121,7 +121,7 @@ final class RecipeDatabase {
             }
 
             if !existingColumns.contains("rating") {
-                try db.run("ALTER TABLE recipes ADD COLUMN rating INTEGER")
+                try db.run("ALTER TABLE recipes ADD COLUMN rating REAL")
             }
 
             if !existingColumns.contains("is_favorite") {

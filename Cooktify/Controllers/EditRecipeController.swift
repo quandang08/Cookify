@@ -22,8 +22,8 @@ class EditRecipeController: BaseRecipeFormController {
         nameTextField.text = recipe.name
         durationTextField.text = "\(recipe.duration)"
         // Đổ rating vào giao diện: Index 0 tương ứng 1 sao, Index 4 tương ứng 5 sao
-        let ratingValue = recipe.rating ?? 1
-        ratingSegment.selectedSegmentIndex = ratingValue - 1
+        let ratingValue = Int((recipe.rating ?? 1).rounded())
+        ratingSegment.selectedSegmentIndex = max(0, min(4, ratingValue - 1))
     }
     
     override func handleSaveAction() {

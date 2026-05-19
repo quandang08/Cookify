@@ -33,7 +33,7 @@ struct Recipe: Identifiable {
     var image: String?
     var category: String?
     var duration: Int
-    var rating: Int?
+    var rating: Double?
     var difficulty: String
     var isFavorite: Bool
     var createdAt: String
@@ -46,7 +46,7 @@ struct Recipe: Identifiable {
         image: String? = nil,
         category: String? = nil,
         duration: Int = 0,
-        rating: Int? = nil,
+        rating: Double? = nil,
         difficulty: String = "Easy",
         isFavorite: Bool = false,
         createdAt: String = Recipe.currentDateString(),
