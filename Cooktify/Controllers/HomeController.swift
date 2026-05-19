@@ -11,23 +11,32 @@ class HomeController: UIViewController {
 
     @IBOutlet weak var mainCollectionView: UICollectionView!
 
-    private let primaryGreen = UIColor(red: 26/255, green: 71/255, blue: 51/255, alpha: 1.0)
+    private var recipeCards: [HomeRecipeCard] = []
 
-    private let featuredRecipe = HomeRecipeCard(
-        title: "Green Goddess Glow Bowl",
-        subtitle: "Healthy Choice",
-        time: "15 min prep",
-        rating: "4.9",
-        difficulty: "Easy",
-        imageName: "avocado_bowl"
-    )
+    private var featuredRecipe: HomeRecipeCard {
+        recipeCards.first ?? HomeRecipeCard(
+            id: nil,
+            title: "Green Goddess Glow Bowl",
+            subtitle: "Healthy Choice",
+            time: "15 min prep",
+            rating: "4.9",
+            difficulty: "Easy",
+            imageName: "avocado_bowl"
+        )
+    }
 
-    private let recipes: [HomeRecipeCard] = [
-        HomeRecipeCard(title: "Avocado Toast", subtitle: "Breakfast", time: "15 min", rating: "4.8", difficulty: "Easy", imageName: "avocado"),
-        HomeRecipeCard(title: "Lemon Ricotta Pasta", subtitle: "Dinner", time: "25 min", rating: "4.7", difficulty: "Medium", imageName: nil),
-        HomeRecipeCard(title: "Matcha Pancakes", subtitle: "Dessert", time: "20 min", rating: "4.6", difficulty: "Easy", imageName: nil),
-        HomeRecipeCard(title: "Quinoa Power Bowl", subtitle: "Healthy", time: "18 min", rating: "4.9", difficulty: "Easy", imageName: "avocado_bowl")
-    ]
+    private var gridRecipes: [HomeRecipeCard] {
+        if recipeCards.count > 1 {
+            return Array(recipeCards.dropFirst())
+        }
+
+        return [
+            HomeRecipeCard(id: nil, title: "Avocado Toast", subtitle: "Breakfast", time: "15 min", rating: "4.8", difficulty: "Easy", imageName: "avocado"),
+            HomeRecipeCard(id: nil, title: "Lemon Ricotta Pasta", subtitle: "Dinner", time: "25 min", rating: "4.7", difficulty: "Medium", imageName: nil),
+            HomeRecipeCard(id: nil, title: "Matcha Pancakes", subtitle: "Dessert", time: "20 min", rating: "4.6", difficulty: "Easy", imageName: nil),
+            HomeRecipeCard(id: nil, title: "Quinoa Power Bowl", subtitle: "Healthy", time: "18 min", rating: "4.9", difficulty: "Easy", imageName: "avocado_bowl")
+        ]
+    }
 
     // Khai báo nút Floating Action Button
     let addButton: UIButton = {
@@ -49,6 +58,28 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         setupCollectionView()
         setupFloatingButton()
+        loadRecipesFromDatabase()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadRecipesFromDatabase()
+    }
+
+    private func loadRecipesFromDatabase() {
+        let recipes = RecipeDatabase.shared.fetchAllRecipes()
+        recipeCards = recipes.map { recipe in
+            HomeRecipeCard(
+                id: recipe.id,
+                title: recipe.name,
+                subtitle: recipe.category ?? "Recipe",
+                time: "\(recipe.duration) min",
+                rating: String(format: "%.1f", recipe.rating ?? 0),
+                difficulty: recipe.difficulty,
+                imageName: recipe.image
+            )
+        }
+        mainCollectionView.reloadData()
     }
 
     private func setupCollectionView() {
@@ -107,13 +138,14 @@ class HomeController: UIViewController {
         present(addVC, animated: true, completion: nil)
     }
 
-    private func openRecipeDetail() {
+    private func openRecipeDetail(recipeId: Int?) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let detailVC = storyboard.instantiateViewController(withIdentifier: "RecipeDetailController") as? RecipeDetailController else {
-            // Nếu storyboard chưa có identifier, fallback bằng scene segue cũ không dùng được với cell code.
             navigationController?.pushViewController(RecipeDetailController(), animated: true)
             return
         }
+
+        detailVC.recipeId = recipeId
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
@@ -123,7 +155,7 @@ extension HomeController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int { 2 }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        section == 0 ? 1 : recipes.count
+        section == 0 ? 1 : gridRecipes.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -134,7 +166,7 @@ extension HomeController: UICollectionViewDataSource {
         }
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeSmallRecipeCell.identifier, for: indexPath) as! HomeSmallRecipeCell
-        cell.configure(with: recipes[indexPath.item])
+        cell.configure(with: gridRecipes[indexPath.item])
         return cell
     }
 }
@@ -142,7 +174,8 @@ extension HomeController: UICollectionViewDataSource {
 // MARK: - Layout + Navigation
 extension HomeController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        openRecipeDetail()
+        let selectedRecipe = indexPath.section == 0 ? featuredRecipe : gridRecipes[indexPath.item]
+        openRecipeDetail(recipeId: selectedRecipe.id)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

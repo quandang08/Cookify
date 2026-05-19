@@ -8,6 +8,7 @@
 import UIKit
 
 struct HomeRecipeCard {
+    let id: Int?
     let title: String
     let subtitle: String
     let time: String

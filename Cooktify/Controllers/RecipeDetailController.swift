@@ -8,29 +8,12 @@
 import UIKit
 
 class RecipeDetailController: UIViewController {
+    var recipeId: Int?
     var currentRecipe: Recipe?
 
     private let primaryGreen = UIColor(red: 26/255, green: 71/255, blue: 51/255, alpha: 1.0)
     private let creamBackground = UIColor(red: 248/255, green: 247/255, blue: 238/255, alpha: 1.0)
     private let softGreen = UIColor(red: 226/255, green: 239/255, blue: 211/255, alpha: 1.0)
-
-    // Tạm thời dùng data mẫu vì Recipe model hiện chưa có ingredients/steps.
-    // Khi nối database, chỉ cần thay 2 mảng này bằng dữ liệu thật.
-    private let sampleIngredients = [
-        "12 oz fusilli or rigatoni",
-        "1 cup whole-milk ricotta",
-        "1 lemon, zested and juiced",
-        "1/2 cup grated parmesan",
-        "Fresh basil leaves",
-        "Salt and black pepper"
-    ]
-
-    private let sampleInstructions = [
-        "Bring a large pot of heavily salted water to a rolling boil. Add the pasta and cook until very al dente, about 2 minutes less than package directions.",
-        "While pasta cooks, combine ricotta, lemon zest, lemon juice, half the parmesan, and a generous pinch of black pepper in a large serving bowl. Mix until smooth.",
-        "Reserve 1 cup of starchy pasta water. Drain pasta and immediately add to the ricotta mixture.",
-        "Stream in pasta water little by little, tossing vigorously until a creamy sauce forms. Finish with basil and remaining parmesan."
-    ]
 
     private let scrollView = UIScrollView()
     private let contentStack = UIStackView()
@@ -38,8 +21,15 @@ class RecipeDetailController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadRecipeFromDatabaseIfNeeded()
         setupNavigationAppearance()
         setupDynamicDetailUI()
+    }
+
+    private func loadRecipeFromDatabaseIfNeeded() {
+        guard let recipeId else { return }
+        currentRecipe = RecipeDatabase.shared.fetchRecipeDetail(id: recipeId)
+        RecipeDatabase.shared.addRecentlyViewed(recipeId: recipeId)
     }
 
     // MARK: - UI Setup
@@ -199,7 +189,14 @@ class RecipeDetailController: UIViewController {
 
         wrapper.addArrangedSubview(makeSectionTitle("Ingredients"))
 
-        for ingredient in sampleIngredients {
+        let ingredients = currentRecipe?.ingredients ?? []
+
+        if ingredients.isEmpty {
+            wrapper.addArrangedSubview(makeEmptyLabel("No ingredients yet."))
+            return wrapper
+        }
+
+        for ingredient in ingredients {
             let row = UIStackView()
             row.axis = .horizontal
             row.alignment = .center
@@ -214,7 +211,11 @@ class RecipeDetailController: UIViewController {
             button.addTarget(self, action: #selector(ingredientTapped(_:)), for: .touchUpInside)
 
             let label = UILabel()
-            label.text = ingredient
+            if let quantity = ingredient.quantity, !quantity.isEmpty {
+                label.text = "\(quantity) \(ingredient.name)"
+            } else {
+                label.text = ingredient.name
+            }
             label.font = .systemFont(ofSize: 18, weight: .regular)
             label.numberOfLines = 0
 
@@ -232,14 +233,21 @@ class RecipeDetailController: UIViewController {
 
         wrapper.addArrangedSubview(makeSectionTitle("Instructions"))
 
-        for (index, instruction) in sampleInstructions.enumerated() {
+        let instructions = currentRecipe?.steps ?? []
+
+        if instructions.isEmpty {
+            wrapper.addArrangedSubview(makeEmptyLabel("No instructions yet."))
+            return wrapper
+        }
+
+        for instruction in instructions {
             let row = UIStackView()
             row.axis = .horizontal
             row.alignment = .top
             row.spacing = 14
 
             let numberLabel = UILabel()
-            numberLabel.text = "\(index + 1)"
+            numberLabel.text = "\(instruction.stepNumber)"
             numberLabel.textColor = .white
             numberLabel.font = .systemFont(ofSize: 15, weight: .bold)
             numberLabel.textAlignment = .center
@@ -250,7 +258,7 @@ class RecipeDetailController: UIViewController {
             numberLabel.heightAnchor.constraint(equalToConstant: 28).isActive = true
 
             let textLabel = UILabel()
-            textLabel.text = instruction
+            textLabel.text = instruction.description
             textLabel.font = .systemFont(ofSize: 17, weight: .regular)
             textLabel.textColor = .label
             textLabel.numberOfLines = 0
@@ -261,6 +269,15 @@ class RecipeDetailController: UIViewController {
         }
 
         return wrapper
+    }
+
+    private func makeEmptyLabel(_ text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 0
+        return label
     }
 
     private func makeSectionTitle(_ title: String) -> UILabel {
