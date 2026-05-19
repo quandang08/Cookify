@@ -388,8 +388,19 @@ class RecipeDetailController: UIViewController {
     }
 
     private func handleDeleteLogic() {
-        print("Backend Quân: Đang thực thi xóa dữ liệu...")
-        navigationController?.popViewController(animated: true)
+        guard let recipeId else {
+            navigationController?.popViewController(animated: true)
+            return
+        }
+
+        RecipeDatabase.shared.deleteRecipe(id: recipeId)
+        print("Backend Quân: Đã DELETE recipe ID \(recipeId)")
+
+        if let navigationController, navigationController.viewControllers.first !== self {
+            navigationController.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
     }
 
     @IBAction func ingredientTapped(_ sender: UIButton) {

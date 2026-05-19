@@ -82,6 +82,10 @@ class BaseRecipeFormController: UIViewController, UIImagePickerControllerDelegat
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(handleSelectPhoto))
             recipeImageView.addGestureRecognizer(tap)
+
+            let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+            dismissKeyboardTap.cancelsTouchesInView = false
+            view.addGestureRecognizer(dismissKeyboardTap)
             
             // Gán hành động cho nút Save (Sẽ được ghi đè ở class con)
             saveButton.addTarget(self, action: #selector(handleSaveAction), for: .touchUpInside)
@@ -141,7 +145,52 @@ class BaseRecipeFormController: UIViewController, UIImagePickerControllerDelegat
             return label
         }
 
+
+        func selectedCategory() -> String {
+            categorySegment.titleForSegment(at: categorySegment.selectedSegmentIndex) ?? "Breakfast"
+        }
+
+        func selectedDifficulty() -> String {
+            difficultySegment.titleForSegment(at: difficultySegment.selectedSegmentIndex) ?? "Easy"
+        }
+
+        func selectedRating() -> Double {
+            Double(ratingSegment.selectedSegmentIndex + 1)
+        }
+
+        func parsedIngredients(recipeId: Int = 0) -> [Ingredient] {
+            ingredientsTextView.text
+                .components(separatedBy: .newlines)
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+                .enumerated()
+                .map { index, line in
+                    Ingredient(id: index + 1, recipeId: recipeId, name: line, quantity: nil)
+                }
+        }
+
+        func parsedSteps(recipeId: Int = 0) -> [RecipeStep] {
+            stepsTextView.text
+                .components(separatedBy: .newlines)
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+                .enumerated()
+                .map { index, line in
+                    RecipeStep(id: index + 1, recipeId: recipeId, stepNumber: index + 1, description: line)
+                }
+        }
+
+        func showAlert(title: String, message: String) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
+
         // MARK: - Handlers
+        @objc func dismissKeyboard() {
+            view.endEditing(true)
+        }
+
         @objc func handleSelectPhoto() {
             let picker = UIImagePickerController()
             picker.delegate = self
