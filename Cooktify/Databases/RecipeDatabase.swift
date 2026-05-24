@@ -229,6 +229,51 @@ final class RecipeDatabase {
         }
     }
 
+    // Full list of recently viewed (no limit)
+    func fetchAllRecentlyViewedRecipes() -> [Recipe] {
+        guard let db else { return [] }
+
+        do {
+            let rows = try db.prepare(recentlyViewed.order(viewedId.desc))
+            return rows.compactMap { row in
+                fetchRecipeDetail(id: row[viewedRecipeId])
+            }
+        } catch {
+            print("Lỗi fetchAllRecentlyViewedRecipes: \(error)")
+            return []
+        }
+    }
+
+    // Count favorites
+    func countFavoriteRecipes() -> Int {
+        guard let db else { return 0 }
+        do {
+            return try db.scalar(recipes.filter(recipeIsFavorite == true).count)
+        } catch {
+            print("Lỗi countFavoriteRecipes: \(error)")
+            return 0
+        }
+    }
+
+    // Count recently viewed. If unique = true, counts distinct recipe_id.
+    func countRecentlyViewedRecipes(unique: Bool = false) -> Int {
+        guard let db else { return 0 }
+        do {
+            if unique {
+                // Count distinct recipe_id using a typed scalar query
+                // Raw SQL with scalar returning Int64
+                let count: Int64 = try db.scalar("SELECT COUNT(DISTINCT recipe_id) FROM recently_viewed") as! Int64
+                return Int(count)
+            } else {
+                // Total rows in recently_viewed
+                return try db.scalar(recentlyViewed.count)
+            }
+        } catch {
+            print("Lỗi countRecentlyViewedRecipes: \(error)")
+            return 0
+        }
+    }
+
     // MARK: - Create
     @discardableResult
     func createRecipe(_ recipe: Recipe) -> Int? {
@@ -411,4 +456,29 @@ final class RecipeDatabase {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.string(from: Date())
     }
+
+    // Helper model for UIKit Profile screen
+    struct RecentlyViewedItem {
+        let recipe: Recipe
+        let viewedAt: Date
+    }
+    // Fetch recently viewed items with viewedAt date for displaying relative time
+    func fetchRecentlyViewedItems(limit: Int = 10) -> [RecentlyViewedItem] {
+        guard let db else { return [] }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        do {
+            let rows = try db.prepare(recentlyViewed.order(viewedId.desc).limit(limit))
+            return rows.compactMap { row in
+                let rid = row[viewedRecipeId]
+                guard let recipe = fetchRecipeDetail(id: rid) else { return nil }
+                let date = formatter.date(from: row[viewedAt]) ?? Date()
+                return RecentlyViewedItem(recipe: recipe, viewedAt: date)
+            }
+        } catch {
+            print("Lỗi fetchRecentlyViewedItems: \(error)")
+            return []
+        }
+    }
 }
+
