@@ -98,7 +98,7 @@
                                                                 <rect key="frame" x="133" y="0.0" width="188" height="56"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="Q7l-XN-rv0">
-                                                                        <rect key="frame" x="37" y="15" width="71.333333333333343" height="20.333333333333329"/>
+                                                                        <rect key="frame" x="37" y="15" width="71.333333333333329" height="20.333333333333329"/>
                                                                         <subviews>
                                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fork.knife" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="pJl-Sy-2rN">
                                                                                 <rect key="frame" x="0.0" y="-1" width="15.666666666666666" height="21.333333333333332"/>
@@ -436,6 +436,46 @@
             </objects>
             <point key="canvasLocation" x="-440.45801526717554" y="1253.5211267605634"/>
         </scene>
+        <!--Mini Todo View Controller-->
+        <scene sceneID="N8N-ct-FHb">
+            <objects>
+                <viewController storyboardIdentifier="MiniTodoViewController" id="KPe-l5-p4V" customClass="MiniTodoViewController" customModule="Cooktify" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FBh-yi-hwF">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="iYw-Xx-nAc">
+                                <rect key="frame" x="0.0" y="118" width="393" height="666"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="ivA-iR-qCc">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="53"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ivA-iR-qCc" id="iEl-iG-aVp">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="53"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mkS-MK-keV"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="mkS-MK-keV" firstAttribute="trailing" secondItem="iYw-Xx-nAc" secondAttribute="trailing" id="5GT-eA-emC"/>
+                            <constraint firstItem="mkS-MK-keV" firstAttribute="bottom" secondItem="iYw-Xx-nAc" secondAttribute="bottom" id="FZf-wo-EMS"/>
+                            <constraint firstItem="iYw-Xx-nAc" firstAttribute="top" secondItem="mkS-MK-keV" secondAttribute="top" id="OsP-x4-NKf"/>
+                            <constraint firstItem="iYw-Xx-nAc" firstAttribute="leading" secondItem="mkS-MK-keV" secondAttribute="leading" id="YfA-31-f6r"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="iYw-Xx-nAc" id="5Fv-9E-wpa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Afe-Ba-LJr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1636" y="1026"/>
+        </scene>
         <!--Add Recipe Controller-->
         <scene sceneID="51V-V2-DaM">
             <objects>
@@ -464,7 +504,7 @@
                         <segue destination="kaL-U9-cZI" kind="relationship" relationship="viewControllers" id="bCG-Ug-ydh"/>
                         <segue destination="FXc-0z-6w2" kind="relationship" relationship="viewControllers" id="2Wu-2z-mGg"/>
                         <segue destination="Sr9-d2-EU7" kind="relationship" relationship="viewControllers" id="iO6-Gb-Fbk"/>
-                        <segue destination="Iy3-zv-DRc" kind="relationship" relationship="viewControllers" id="MUJ-QD-jNN"/>
+                        <segue destination="Wvw-ah-WLY" kind="relationship" relationship="viewControllers" id="MUJ-QD-jNN"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rfo-Uk-Xqe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -705,7 +745,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJ5-Ml-Zcl">
-                                <rect key="frame" x="0.0" y="118" width="393" height="617"/>
+                                <rect key="frame" x="0.0" y="172" width="393" height="563"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w2N-Aq-09g" userLabel="containerTicket">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="617"/>
@@ -718,13 +758,13 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Guest" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcI-6l-dbN">
-                                                <rect key="frame" x="169.66666666666666" y="144" width="54" height="83.666666666666686"/>
+                                                <rect key="frame" x="169.66666666666666" y="144" width="54" height="29.666666666666657"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="d6U-9M-bX4">
-                                                <rect key="frame" x="24" y="247.66666666666669" width="345" height="100"/>
+                                                <rect key="frame" x="24" y="193.66666666666669" width="345" height="100"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wco-xD-FKf" customClass="favoritesCard">
                                                         <rect key="frame" x="0.0" y="0.0" width="164.66666666666666" height="100"/>
@@ -756,7 +796,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recently Viewed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QGv-NR-oY3">
-                                                                <rect key="frame" x="22.666666666666686" y="66" width="107" height="17"/>
+                                                                <rect key="frame" x="22.333333333333343" y="66" width="107" height="17"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -777,7 +817,7 @@
                                                 </constraints>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Recently Viewed Recipes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AxC-MH-FAV">
-                                                <rect key="frame" x="23.999999999999986" y="371.66666666666669" width="250.66666666666663" height="26.333333333333314"/>
+                                                <rect key="frame" x="23.999999999999986" y="317.66666666666669" width="250.66666666666663" height="26.333333333333314"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -866,7 +906,7 @@
                             <constraint firstAttribute="bottom" secondItem="oME-5l-YUj" secondAttribute="bottom" constant="20" id="hSO-vT-9Dt"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" selectedImage="person" id="rN2-c5-YA4"/>
+                    <navigationItem key="navigationItem" id="rND-Q1-xom"/>
                     <connections>
                         <outlet property="favoriteCountLabel" destination="Hcu-Td-j3E" id="zei-IF-6Jb"/>
                         <outlet property="recentlyCountLabel" destination="T2I-Qf-W2W" id="kZx-r3-dcj"/>
@@ -875,7 +915,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DuE-4Y-OYp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3574.8091603053435" y="204.92957746478874"/>
+            <point key="canvasLocation" x="4501.5267175572517" y="204.92957746478874"/>
         </scene>
         <!--Home-->
         <scene sceneID="SZ1-sp-9Pv">
@@ -897,6 +937,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9d-Wy-8EK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1364.1221374045801" y="204.92957746478874"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="aTH-GY-k80">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Wvw-ah-WLY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" selectedImage="person" id="rN2-c5-YA4"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="N61-Tf-cyO">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Iy3-zv-DRc" kind="relationship" relationship="rootViewController" id="BcN-Ej-gh4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PgL-ID-7Cp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3574.8091603053435" y="204.92957746478874"/>
         </scene>
     </scenes>
     <resources>

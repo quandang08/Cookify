@@ -16,7 +16,23 @@ final class ProfileController: UIViewController {
         f.unitsStyle = .full
         return f
     }()
-
+    @objc func openTodoScreenTapped() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        // PHẢI DÙNG LỆNH NÀY ĐỂ GỌI MÀN HÌNH TỪ STORYBOARD
+        if let todoVC = storyboard.instantiateViewController(withIdentifier: "MiniTodoViewController") as? MiniTodoViewController {
+            
+            if let navigationController = self.navigationController {
+                navigationController.pushViewController(todoVC, animated: true)
+            } else {
+                let navVC = UINavigationController(rootViewController: todoVC)
+                navVC.modalPresentationStyle = .pageSheet
+                present(navVC, animated: true)
+            }
+        } else {
+            print("Không tìm thấy màn hình có ID là MiniTodoViewController trong Storyboard!")
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Profile"
@@ -34,6 +50,8 @@ final class ProfileController: UIViewController {
         
         // Listen for database changes to update counts and list live
         NotificationCenter.default.addObserver(self, selector: #selector(handleDataDidChange), name: Notification.Name("RecipeDatabaseDidChange"), object: nil)
+        let todoButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet.clipboard"), style: .plain, target: self, action: #selector(openTodoScreenTapped))
+                self.navigationItem.rightBarButtonItem = todoButton
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,13 +92,11 @@ final class ProfileController: UIViewController {
     private func loadData() {
         favoriteCountLabel.text = "\(db.countFavoriteRecipes())"
         
-        // Fetch more items to ensure we can filter to unique by recipe id while preserving most-recent-first order
         let rawItems = db.fetchRecentlyViewedItems(limit: 200)
         
-        // Sort descending by viewedAt to ensure most recent first (in case DB doesn't already)
         let sorted = rawItems.sorted { $0.viewedAt > $1.viewedAt }
         
-        // Filter to unique recipes, keeping the first (most recent) occurrence of each recipe.id
+
         var seen = Set<Int>()
         var uniques: [RecipeDatabase.RecentlyViewedItem] = []
         for item in sorted {
@@ -91,11 +107,9 @@ final class ProfileController: UIViewController {
             }
         }
         
-        // Limit to top 10 unique items
         let topUnique = uniques.prefix(10)
         recentlyViewedItems = Array(topUnique)
-        
-        // Update the count label to reflect unique count (matches the list meaning)
+
         recentlyCountLabel.text = "\(uniques.count)"
         
         tableView.reloadData()
