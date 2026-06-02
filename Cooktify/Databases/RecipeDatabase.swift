@@ -133,8 +133,8 @@ final class RecipeDatabase {
             }
 
             // Nếu import từ database cũ có bảng ratings/favorites riêng, copy dữ liệu về recipes cho schema mới.
-            try? db.run("UPDATE recipes SET rating = (SELECT rating FROM ratings WHERE ratings.recipe_id = recipes.id LIMIT 1) WHERE rating IS NULL")
-            try? db.run("UPDATE recipes SET is_favorite = 1 WHERE id IN (SELECT recipe_id FROM favorites)")
+            _ = try? db.run("UPDATE recipes SET rating = (SELECT rating FROM ratings WHERE ratings.recipe_id = recipes.id LIMIT 1) WHERE rating IS NULL")
+            _ = try? db.run("UPDATE recipes SET is_favorite = 1 WHERE id IN (SELECT recipe_id FROM favorites)")
         } catch {
             print("Lỗi migrateRecipesTableIfNeeded: \(error)")
         }
@@ -481,4 +481,3 @@ final class RecipeDatabase {
         }
     }
 }
-

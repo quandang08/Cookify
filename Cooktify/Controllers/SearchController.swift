@@ -10,6 +10,9 @@ import UIKit
 class SearchController: UIViewController {
     private var searchResults: [Recipe] = []
     private var hasUserTyped = false
+    private let recentSearchesKey = "cookify_recent_searches"
+    private let maxRecentSearches = 5
+    private var recentSearches: [String] = []
     
     // MARK: - UI Components
     
@@ -21,7 +24,7 @@ class SearchController: UIViewController {
     }()
     
     let avatarImageView: UIImageView = {
-        let iv = UIImageView(image: UIImage(systemName: "person.crop.circle.fill")) // Thay bằng ảnh thật "user_avatar" nếu có
+        let iv = UIImageView(image: UIImage(systemName: "person.crop.circle.fill")) // Thay bằng ảnh thật "user_avatar"
         iv.tintColor = .systemGray
         iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 20
@@ -113,7 +116,8 @@ class SearchController: UIViewController {
         view.backgroundColor = UIColor(white: 0.98, alpha: 1.0)
         
         setupUI()
-        setupRecentTags()
+        loadRecentSearches()
+        renderRecentSearchTags()
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -133,9 +137,16 @@ class SearchController: UIViewController {
 
     @objc private func searchTextChanged() {
         hasUserTyped = true
-        let keyword = searchTextField.text ?? ""
+        let keyword = searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if keyword.isEmpty {
+            loadTopDiscoveries()
+            return
+        }
+
+        saveRecentSearch(keyword)
         searchResults = RecipeDatabase.shared.searchRecipes(keyword: keyword)
-        sectionTitleLabel.text = keyword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Top Discoveries" : "Search Results"
+        sectionTitleLabel.text = "Search Results"
+        renderRecentSearchTags()
         collectionView.reloadData()
     }
 
@@ -207,9 +218,38 @@ class SearchController: UIViewController {
         ])
     }
     
-    private func setupRecentTags() {
-        let tags = ["Sourdough", "Vegan Pasta", "Matcha"]
-        for tag in tags {
+    private func loadRecentSearches() {
+        recentSearches = UserDefaults.standard.stringArray(forKey: recentSearchesKey) ?? []
+    }
+
+    private func saveRecentSearch(_ keyword: String) {
+        let normalizedKeyword = keyword.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !normalizedKeyword.isEmpty else { return }
+
+        recentSearches.removeAll { $0.caseInsensitiveCompare(normalizedKeyword) == .orderedSame }
+        recentSearches.insert(normalizedKeyword, at: 0)
+        if recentSearches.count > maxRecentSearches {
+            recentSearches = Array(recentSearches.prefix(maxRecentSearches))
+        }
+        UserDefaults.standard.set(recentSearches, forKey: recentSearchesKey)
+    }
+
+    private func renderRecentSearchTags() {
+        recentStack.arrangedSubviews.forEach { view in
+            recentStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+
+        guard !recentSearches.isEmpty else {
+            recentLabel.isHidden = false
+            recentStack.isHidden = false
+            return
+        }
+
+        recentLabel.isHidden = false
+        recentStack.isHidden = false
+
+        for tag in recentSearches {
             let btn = UIButton(type: .system)
             btn.setTitle("  \(tag)  ", for: .normal)
             btn.setTitleColor(.darkGray, for: .normal)

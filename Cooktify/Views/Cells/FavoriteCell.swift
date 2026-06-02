@@ -9,10 +9,14 @@ import UIKit
 class FavoriteCell: UICollectionViewCell {
     static let identifier = "FavoriteCell"
     
+    var onFavoriteButtonTapped: (() -> Void)?
+    var onDeleteRecipeTapped: (() -> Void)?
+
     var isSearchMode: Bool = false {
         didSet {
             // Khi biến này thay đổi, nút tim sẽ tự ẩn/hiện
             heartButton.isHidden = isSearchMode
+            deleteRecipeButton.isHidden = isSearchMode
         }
     }
     
@@ -32,6 +36,20 @@ class FavoriteCell: UICollectionViewCell {
         btn.tintColor = .systemGreen
         btn.backgroundColor = .white.withAlphaComponent(0.9)
         btn.layer.cornerRadius = 16
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+
+    let deleteRecipeButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("Xoá công thức", for: .normal)
+        btn.setTitleColor(.systemRed, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = 14
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = UIColor.systemRed.withAlphaComponent(0.25).cgColor
+        btn.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -106,6 +124,9 @@ class FavoriteCell: UICollectionViewCell {
         
         contentView.addSubview(foodImageView)
         contentView.addSubview(heartButton)
+        contentView.addSubview(deleteRecipeButton)
+        heartButton.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
+        deleteRecipeButton.addTarget(self, action: #selector(deleteRecipeButtonTapped), for: .touchUpInside)
         
         // Tạo Container cho phần Text để dễ padding
         let textContainer = UIStackView()
@@ -132,13 +153,24 @@ class FavoriteCell: UICollectionViewCell {
             heartButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             heartButton.widthAnchor.constraint(equalToConstant: 32),
             heartButton.heightAnchor.constraint(equalToConstant: 32),
-            
+
+            deleteRecipeButton.topAnchor.constraint(equalTo: foodImageView.topAnchor, constant: 14),
+            deleteRecipeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -14),
+
             // Phần text nằm dưới ảnh
             textContainer.topAnchor.constraint(equalTo: foodImageView.bottomAnchor, constant: 15),
             textContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             textContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             textContainer.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -15)
         ])
+    }
+
+    @objc private func favoriteButtonTapped() {
+        onFavoriteButtonTapped?()
+    }
+
+    @objc private func deleteRecipeButtonTapped() {
+        onDeleteRecipeTapped?()
     }
     
     // Hàm này giúp tạo nhanh các item meta (Clock, Flame)

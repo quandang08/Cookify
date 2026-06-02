@@ -196,7 +196,7 @@ extension HomeController: UICollectionViewDataSource {
     }
 }
 
-// MARK: - Layout + Navigation
+// MARK: - Layout + Navigation - Delegate
 extension HomeController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedRecipe = indexPath.section == 0 ? featuredRecipe : gridRecipes[indexPath.item]

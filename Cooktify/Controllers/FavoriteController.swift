@@ -107,6 +107,11 @@ class FavoriteController: UIViewController {
         collectionView.reloadData()
     }
 
+    private func removeFavorite(recipeId: Int) {
+        RecipeDatabase.shared.toggleFavorite(recipeId: recipeId)
+        loadFavoriteRecipes()
+    }
+
     private func setupUI() {
         view.addSubview(headerContainer)
         headerContainer.addSubview(avatarImageView)
@@ -175,7 +180,15 @@ extension FavoriteController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.identifier, for: indexPath) as! FavoriteCell
-        cell.configure(with: favoriteRecipes[indexPath.item])
+        let recipe = favoriteRecipes[indexPath.item]
+        cell.configure(with: recipe)
+        cell.isSearchMode = false
+        cell.onFavoriteButtonTapped = { [weak self] in
+            self?.removeFavorite(recipeId: recipe.id)
+        }
+        cell.onDeleteRecipeTapped = { [weak self] in
+            self?.removeFavorite(recipeId: recipe.id)
+        }
         return cell
     }
 
